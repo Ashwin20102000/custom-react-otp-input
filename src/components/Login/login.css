@@ -1,0 +1,8 @@
+.noSpin::-webkit-inner-spin-button, .no-spin::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+.noSpin {
+    -moz-appearance:textfield !important;
+}
