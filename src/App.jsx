@@ -6,9 +6,9 @@ import {getAuth, onAuthStateChanged, PhoneAuthProvider, RecaptchaVerifier,  sign
 import React from 'react';
 function App() {
   const [user,setUser] = React.useState(false);
-  const INDIA_CODE = "+91";
+  const INDIA_CODE = "+91 ";
   const app = firebase.initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  const auth = getAuth();
   var recaptchaVerifier,provider,confirmationResult;  
   onAuthStateChanged(auth,(user) => {
     if (user) {
@@ -20,7 +20,7 @@ function App() {
        size: "invisible",
         callback: function (response) {
           console.log("Captcha Resolved");
-          this.onSignInSubmit();
+          // this.onSignInSubmit();
         },
         defaultCountry: "IN",
     },auth);
@@ -31,15 +31,25 @@ function App() {
     const appVerifier = recaptchaVerifier;
     provider = new PhoneAuthProvider();
     signInWithPhoneNumber (auth,number,appVerifier).then((res)=>{
-      confirmationResult=res
-    })
+      window.confirmationResult=res
+      console.log('first',window.confirmationResult,number);
+    }).catch(err=>console.log('err', err))
   }
-  console.log('first',confirmationResult);
   
-  const onOtpSubmit = async(otp) => {
-    await provider.then((verifyId)=>PhoneAuthProvider
-    .credential(verifyId,otp))
-    .then((phoneCredential)=>signInWithCredential(phoneCredential)) 
+  const onOtpSubmit = (otp) => {
+    console.log('otp', otp)
+    PhoneAuthProvider.credential(window.confirmationResult.verificationId,otp);
+    window.confirmationResult.confirm(otp)
+    // then((confirmationResult) => {
+    //     console.log(confirmationResult);
+    //     console.log("success");
+    //   })
+    //   .catch((error) => {
+    //     alert(error.message);
+    //   });
+  //   provider.then((verifyId)=>PhoneAuthProvider
+  //   .credential(verifyId,otp))
+  //   .then((phoneCredential)=>signInWithCredential(phoneCredential)) 
   }
   return (
     <div className="App">

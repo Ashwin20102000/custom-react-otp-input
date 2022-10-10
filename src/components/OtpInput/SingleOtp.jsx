@@ -6,7 +6,6 @@ const SingleOtp = (props) => {
   const inputRef = React.useRef(null);
   const prevFocus = usePrevious(!!focus);
   React.useLayoutEffect(() => {
-    inputRef.current.style.width=20;
     if (inputRef.current) {
       if (focus && autoFocus) {
         inputRef.current.focus();
@@ -18,7 +17,7 @@ const SingleOtp = (props) => {
     }
   }, [autoFocus, focus, prevFocus]);
 
-  return <input className='otp-input-fields' ref={inputRef} {...rest} />;
+  return <input  className='otp-input-field' ref={inputRef} {...rest} />;
 }
 
 export default React.memo(SingleOtp);

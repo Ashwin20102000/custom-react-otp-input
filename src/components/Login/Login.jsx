@@ -15,6 +15,7 @@ const Login = (props) => {
   }
   return (
     <div style={{height:"19rem"}} className='d-flex p-5 rounded  align-items-center border'>
+      <div className='my-2' id="recaptcha-container"></div>
      {
       !otpShow?
       <Form onSubmit={onPhoneSubmit}>
@@ -41,24 +42,16 @@ const Login = (props) => {
         </Form.Group>
           <Button className='mt-2  me-2' type='submit'>Login</Button>
           <Button variant='secondary-outline' className='mt-2'>Create Id</Button>
-      <div className='my-2' id="recaptcha-container"></div>
       </Form>
       :
-      <div className='d-flex flex-column'>
+      <div className='d-flex flex-column '>
       <h1>Enter OTP</h1>
-      
-      {/* <div class="otp-input-fields">
-        <input type="number" className="otp__digit otp__field__1" />
-        <input type="number" className="otp__digit otp__field__2" />
-        <input type="number" className="otp__digit otp__field__3" />
-        <input type="number" className="otp__digit otp__field__4" />
-        <input type="number" className="otp__digit otp__field__5" />
-        <input type="number" /> 
-        </div> */}
         <OtpInput
+        autoFocus
         length={6}
-        onChangeOTP={()=>{}}
+        onChangeOTP={(otp) => setOtp(otp)}
         />
+        <Button onClick={()=>{props.onOtpSubmit(otp)} }>Submit</Button>
       </div>
       }
     </div>
