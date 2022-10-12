@@ -4,20 +4,25 @@ import OtpInput from '../OtpInput/OtpInput';
 import  './login.css';
 const Login = (props) => {
   const [number,setNumber] = React.useState("");
-  const [otpShow,setOtpShow] = React.useState(false);
-  const [otp,setOtp] = React.useState("");
+  const [otp,setOtp] =React.useState();
+  const [show,setShow] = React.useState({
+    login:true,
+    otp:false,
+    message:false
+  })
   const onPhoneSubmit = (event) =>{
     event.preventDefault();
     if(number.length===10 && isFinite(number)){
-      setOtpShow(true);
       props.loginSetup(number);
+      setShow((prev)=>{
+        return {...prev,login:false,otp:true}
+      })
     }
   }
   return (
     <div style={{height:"19rem"}} className='d-flex p-5 rounded  align-items-center border'>
-      <div className='my-2' id="recaptcha-container"></div>
      {
-      !otpShow?
+      show.login && 
       <Form onSubmit={onPhoneSubmit}>
         <Form.Group>
           <Form.Label>
@@ -41,9 +46,10 @@ const Login = (props) => {
           </InputGroup>
         </Form.Group>
           <Button className='mt-2  me-2' type='submit'>Login</Button>
-          <Button variant='secondary-outline' className='mt-2'>Create Id</Button>
       </Form>
-      :
+      }
+      {
+        show.otp &&
       <div className='d-flex flex-column '>
       <h1>Enter OTP</h1>
         <OtpInput
@@ -51,8 +57,19 @@ const Login = (props) => {
         length={6}
         onChangeOTP={(otp) => setOtp(otp)}
         />
-        <Button onClick={()=>{props.onOtpSubmit(otp)} }>Submit</Button>
+        <Button onClick={()=>{
+          props.onOtpSubmit(otp)
+          if(otp.length===6){
+              setShow((prev)=>{
+                return {...prev,otp:false,message:true}
+              })
+          }
+
+          } }>Verify OTP</Button>
       </div>
+      }
+      {
+        show.message && <h2 className='text-success'>✅ Your Otp is  verified Successfully</h2>
       }
     </div>
   )

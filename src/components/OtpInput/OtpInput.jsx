@@ -124,7 +124,7 @@ const OtpInput = (
           break;
         }
         default: {
-          if (pressedKey.match(/^[^a-zA-Z0-9]$/)) {
+          if (pressedKey.match(/^[^0-9]$/)) {
             e.preventDefault();
           }
 
@@ -143,6 +143,7 @@ const OtpInput = (
         .trim()
         .slice(0, length - activeInput)
         .split('');
+        
       if (pastedData) {
         let nextFocusIndex = 0;
         const updatedOTPValues = [...otpValues];
@@ -170,7 +171,7 @@ const OtpInput = (
         .fill("")
         .map((_, index) => (
           <SingleOtp
-           key={`SingleInput-${index}`}
+           key={`singleInput-${index}`}
             focus={activeInput === index}
             value={otpValues && otpValues[index]}
             autoFocus={autoFocus}
